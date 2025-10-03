@@ -18,12 +18,18 @@ from django.contrib import admin
 from django.urls import path, include
 from django.conf.urls.static import static
 from django.conf import settings
+from django.http import JsonResponse
+
+def health_check(request):
+    """Health check endpoint for AWS container health checks"""
+    return JsonResponse({"status": "healthy"})
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/', include('awsapp.urls')),
     # DRF auth URLs for browsable API login/logout
     path('api-auth/', include('rest_framework.urls')),
+    path('health/', health_check, name='health_check'),
 ]
 
 if settings.DEBUG:
