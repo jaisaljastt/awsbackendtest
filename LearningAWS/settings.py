@@ -21,12 +21,12 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/5.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-$f&xrc1eq)uyii^%uv_b0e^e4du4yx-7e#%ei3(%0m*@1retnj'
+SECRET_KEY = config('SECRET_KEY', default='django-insecure-change-me-in-production')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = config('DEBUG', default=True, cast=bool)
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = config('ALLOWED_HOSTS', default='', cast=lambda v: [s.strip() for s in v.split(',') if s.strip()])
 
 
 # Application definition
@@ -79,11 +79,11 @@ WSGI_APPLICATION = 'LearningAWS.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'django',
-        'USER': 'admin',
-        'PASSWORD': 'Don4344572$',
-        'HOST': 'djnago-db.c9gs2ou8ck83.eu-north-1.rds.amazonaws.com',
-        'PORT': '3306',
+        'NAME': config('DB_NAME', default='django'),
+        'USER': config('DB_USER', default='admin'),
+        'PASSWORD': config('DB_PASSWORD', default=''),
+        'HOST': config('DB_HOST', default='localhost'),
+        'PORT': config('DB_PORT', default='3306'),
         'OPTIONS': {
             'init_command': "SET sql_mode='STRICT_TRANS_TABLES'",
         },
